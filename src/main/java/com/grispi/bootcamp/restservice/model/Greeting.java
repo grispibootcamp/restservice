@@ -1,4 +1,4 @@
-package com.grispi.bootcamp.restservice;
+package com.grispi.bootcamp.restservice.model;
 
 public class Greeting {
 
