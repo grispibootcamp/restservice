@@ -5,10 +5,7 @@ import com.grispi.bootcamp.restservice.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,5 +33,22 @@ public class MovieController {
         movieRepository.save(movie);
 //        movies.add(movie);
         return ResponseEntity.status(HttpStatus.CREATED).body(movie);
+    }
+
+    @GetMapping("/movies/{id}")
+    Movie getOneMovie(@PathVariable Long id){
+        return movieRepository.findById(id).
+                orElseThrow(() -> new IllegalStateException("movie with " + id + " doesn't exist"));
+    }
+
+    @DeleteMapping("/movies/{id}")
+    void deleteMovie(@PathVariable long id){
+        boolean movieExists = movieRepository.existsById(id);
+        if(!movieExists){
+            throw new IllegalStateException(
+                    "Movie with " + id + " doesn't exists"
+            );
+        }
+        movieRepository.deleteById(id);
     }
 }
