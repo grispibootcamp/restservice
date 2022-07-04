@@ -1,28 +1,38 @@
 package com.grispi.bootcamp.restservice.model;
 
-import java.util.UUID;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class Movie {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
+    private String name;
+    private String imdbKey;
 
-    private final UUID id;
-    private final String name;
-    private final String imdb;
+    protected Movie() {
+    }
 
-    public Movie(UUID id, String name, String imdb) {
-        this.id = id;
+    public Movie(String name, String imdbKey) {
         this.name = name;
-        this.imdb = imdb;
+        this.imdbKey = imdbKey;
     }
 
-    public UUID getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
     public String getName() {
         return name;
     }
 
-    public String getImdb() {
-        return imdb;
+    public String getImdbKey() {
+        return imdbKey;
+    }
+
+    @Override
+    public String toString() {
+        return "name: "+getName()+" imdbKey: "+getImdbKey();
     }
 }
