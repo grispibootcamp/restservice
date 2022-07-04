@@ -1,12 +1,19 @@
 package com.grispi.bootcamp.restservice.model;
 
 
+import javax.persistence.*;
+
+@Entity
 public class Movie {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String name;
+    @Column(unique = true, nullable = false, name = "imdb_key")
     private String imdbKey;
 
-    public Movie() {
+    protected Movie() {
     }
 
     public Movie(String name, String imdbKey) {
@@ -24,6 +31,10 @@ public class Movie {
 
     public String getImdbKey() {
         return imdbKey;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setImdbKey(String imdbKey) {
