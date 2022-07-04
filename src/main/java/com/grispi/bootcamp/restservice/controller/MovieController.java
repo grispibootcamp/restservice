@@ -34,9 +34,6 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.CREATED).body(movie);
     }
 
-
-    //movieye id ile ulaş
-
     @GetMapping("/{id}")
     public ResponseEntity<Movie> getMovie(@PathVariable Long id) {
         Optional<Movie> movie = movieRepository.findById(id);
