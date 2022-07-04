@@ -1,5 +1,6 @@
-package com.grispi.bootcamp.restservice;
+package com.grispi.bootcamp.restservice.controller;
 
+import com.grispi.bootcamp.restservice.model.Greeting;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
