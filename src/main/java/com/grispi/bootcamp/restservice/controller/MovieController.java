@@ -46,7 +46,7 @@ public class MovieController {
     }
 
     @DeleteMapping("/movies/")
-    public ResponseEntity<?> deleteById(@RequestParam("id") Long id) throws NoSuchElementException{
+    public ResponseEntity<?> deleteById(@RequestParam("id") Long id){
         if (movieRepository.existsById(id)){
             movieRepository.deleteById(id);
             return ResponseEntity.ok().build();
