@@ -33,8 +33,6 @@ public class MovieController {
         try{
             Optional<Movie> movie =movieRepository.findById(id);
             return ResponseEntity.status(HttpStatus.FOUND).body(movie);
-        }catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (EmptyResultDataAccessException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
@@ -51,8 +49,6 @@ public class MovieController {
         try{
             movieRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body(null);
-        } catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (EmptyResultDataAccessException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
