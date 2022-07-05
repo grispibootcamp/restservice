@@ -5,13 +5,11 @@ import com.grispi.bootcamp.restservice.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @RestController
@@ -37,4 +35,23 @@ public class MovieController {
 //        movies.add(movie);
         return ResponseEntity.status(HttpStatus.CREATED).body(movie);
     }
+
+    @GetMapping("/movies/")
+    public ResponseEntity<Optional<Movie>> getById(@RequestParam("id") Long id){
+        if (movieRepository.existsById(id)){
+            return ResponseEntity.status(HttpStatus.OK).body(movieRepository.findById(id));
+        }
+        return ResponseEntity.noContent().build();
+
+    }
+
+    @DeleteMapping("/movies/")
+    public ResponseEntity<?> deleteById(@RequestParam("id") Long id) throws NoSuchElementException{
+        if (movieRepository.existsById(id)){
+            movieRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
+
 }
