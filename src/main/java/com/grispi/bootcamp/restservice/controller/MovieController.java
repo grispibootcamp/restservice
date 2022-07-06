@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -33,14 +34,23 @@ public class MovieController {
     }
 
     @GetMapping("/movies/{id}")
-    public ResponseEntity<Movie> findById(@PathVariable Long id) {
-        return new ResponseEntity(movieRepository.findById(id),HttpStatus.OK);
+    public ResponseEntity<Optional<Movie>> getMovieById(@PathVariable Long id) {
+
+        Optional<Movie> movie = movieRepository.findById(id);
+        return ResponseEntity.status(HttpStatus.FOUND).body(movie);
+
     }
 
-    @PostMapping("/movies/remove")
-    public ResponseEntity<Movie> removeMovie(@RequestBody Movie movie) {
-        movieRepository.delete(movie);
-        return ResponseEntity.status(HttpStatus.OK).body(movie);
+
+
+    @DeleteMapping("/movies/{id}")
+    public ResponseEntity<Movie> deleteMovieById (@PathVariable Long id) {
+        try {
+            movieRepository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
 
