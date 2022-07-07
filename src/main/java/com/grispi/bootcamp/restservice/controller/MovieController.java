@@ -13,6 +13,7 @@ import java.util.Optional;
 
 
 @RestController
+@RequestMapping("/movies")
 public class MovieController {
 
     @Autowired
@@ -22,13 +23,13 @@ public class MovieController {
         this.movieRepository = movieRepository;
     }
 
-    @GetMapping("/movies")
+    @GetMapping
     public List<Movie> getMovies(){
 
         return (List<Movie>) movieRepository.findAll();
     }
 
-    @PostMapping("/movies")
+    @PostMapping
     public ResponseEntity<Movie> createMovie(@RequestBody Movie movie){
 
         movieRepository.save(movie);
@@ -36,17 +37,18 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.CREATED).body(movie);
     }
 
-    @GetMapping("/movies/")
-    public ResponseEntity<Optional<Movie>> getById(@RequestParam("id") Long id){
-        if (movieRepository.existsById(id)){
-            return ResponseEntity.status(HttpStatus.OK).body(movieRepository.findById(id));
+    @GetMapping("/{id}")
+    public ResponseEntity<Movie> getById(@PathVariable Long id){
+        Optional<Movie> optionalMovie = movieRepository.findById(id);
+        if (optionalMovie.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).body(optionalMovie.get());
         }
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
 
     }
 
-    @DeleteMapping("/movies/")
-    public ResponseEntity<?> deleteById(@RequestParam("id") Long id) throws NoSuchElementException{
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Long id) throws NoSuchElementException{
         if (movieRepository.existsById(id)){
             movieRepository.deleteById(id);
             return ResponseEntity.ok().build();
