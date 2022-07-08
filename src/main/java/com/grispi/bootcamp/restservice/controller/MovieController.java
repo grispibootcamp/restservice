@@ -1,6 +1,7 @@
 package com.grispi.bootcamp.restservice.controller;
 
 import com.grispi.bootcamp.restservice.model.Movie;
+import com.grispi.bootcamp.restservice.model.dtos.MovieWithGenreDto;
 import com.grispi.bootcamp.restservice.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,28 +13,30 @@ import java.util.Optional;
 
 
 @RestController
+@RequestMapping("/movies/")
 public class MovieController {
 
     private MovieRepository movieRepository;
 
+    @Autowired
     public MovieController(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
     }
 
 
-    @GetMapping("/movies")
-    public List<Movie> getMovies() {
+    @GetMapping("")
+    public List<Movie> getMovies()
+    {
         return (List<Movie>) movieRepository.findAll();
     }
 
-
-    @PostMapping("/movies")
+    @PostMapping("")
     public ResponseEntity<Movie> createMovie(@RequestBody Movie movie) {
         movieRepository.save(movie);
         return ResponseEntity.status(HttpStatus.CREATED).body(movie);
     }
 
-    @GetMapping("/movies/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Optional<Movie>> getMovieById(@PathVariable Long id) {
 
         Optional<Movie> movie = movieRepository.findById(id);
@@ -41,9 +44,7 @@ public class MovieController {
 
     }
 
-
-
-    @DeleteMapping("/movies/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Movie> deleteMovieById (@PathVariable Long id) {
         try {
             movieRepository.deleteById(id);
