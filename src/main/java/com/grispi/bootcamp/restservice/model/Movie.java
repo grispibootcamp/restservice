@@ -1,10 +1,7 @@
 package com.grispi.bootcamp.restservice.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "movies")

@@ -1,7 +1,6 @@
 package com.grispi.bootcamp.restservice.controller;
 
 import com.grispi.bootcamp.restservice.model.Movie;
-import com.grispi.bootcamp.restservice.model.dtos.MovieWithGenreDto;
 import com.grispi.bootcamp.restservice.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
