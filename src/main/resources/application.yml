@@ -11,5 +11,5 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
 
 server:
-  port: 6000
+  port: 6001
 
