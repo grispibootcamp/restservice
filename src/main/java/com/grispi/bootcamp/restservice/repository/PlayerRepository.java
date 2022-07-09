@@ -1,9 +1,10 @@
 package com.grispi.bootcamp.restservice.repository;
 
-import com.grispi.bootcamp.restservice.entity.Movie;
+
+import com.grispi.bootcamp.restservice.entity.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MovieRepository extends JpaRepository<Movie, Long> {
+public interface PlayerRepository extends JpaRepository<Player, Long> {
 }
