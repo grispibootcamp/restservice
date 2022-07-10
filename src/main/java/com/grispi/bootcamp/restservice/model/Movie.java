@@ -1,7 +1,9 @@
 package com.grispi.bootcamp.restservice.model;
 
 
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "movies")
@@ -14,18 +16,20 @@ public class Movie {
     private String name;
     @Column(name = "movie_imdbKey")
     private String imdbKey;
-    @ManyToOne()
-    @JoinColumn(name = "genre_id")
-    private Genre genre;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "movie_genre",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private List<Genre> genres;
 
 
     protected Movie() {
     }
 
-    public Movie(String name, String imdbKey, Genre genre) {
+    public Movie(String name, String imdbKey, List<Genre> genres) {
         this.name = name;
         this.imdbKey = imdbKey;
-        this.genre = genre;
+        this.genres = genres;
     }
 
     public Long getId() { return id; }
@@ -38,13 +42,9 @@ public class Movie {
         return imdbKey;
     }
 
-    public Genre getGenre() {
-        return genre;
+    public List<Genre> getGenre() {
+        return genres;
     }
 
 
-    @Override
-    public String toString() {
-        return "name: "+getName()+" imdbKey: "+getImdbKey();
-    }
 }
