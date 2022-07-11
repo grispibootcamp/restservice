@@ -53,7 +53,15 @@ public class MovieController {
         }
     }
 
-
+    @PutMapping("{id}")
+    public ResponseEntity<Movie> updateGenreOfMovie(@PathVariable Long id, @RequestBody Movie movie) {
+        try {
+            movieRepository.save(movie);
+            return ResponseEntity.status(HttpStatus.OK).body(movie);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(movie);
+        }
+    }
 
 
 
