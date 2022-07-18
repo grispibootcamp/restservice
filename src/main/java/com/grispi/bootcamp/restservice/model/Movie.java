@@ -1,9 +1,8 @@
 package com.grispi.bootcamp.restservice.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Movie {
@@ -13,7 +12,23 @@ public class Movie {
     private String name;
     private String imdbKey;
 
+
     protected Movie() {
+    }
+
+    @OneToMany
+    private Set<Player> players;
+
+
+    @ManyToMany
+    @JoinTable(name = "movie_genre",
+           joinColumns = { @JoinColumn(name = "movie_id") },
+            inverseJoinColumns = { @JoinColumn(name = "genre_id") })
+
+    private Set<Genre> genres = new HashSet<>();
+
+    public Set<Genre> getGenres(){
+        return genres;
     }
 
     public Movie(String name, String imdbKey) {
@@ -34,5 +49,10 @@ public class Movie {
     @Override
     public String toString() {
         return "name: "+getName()+" imdbKey: "+getImdbKey();
+    }
+
+    public void setGenres(Set<Genre> genre) {
+        this.genres = genre;
+
     }
 }
