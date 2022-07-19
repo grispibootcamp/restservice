@@ -1,7 +1,6 @@
 package com.grispi.bootcamp.restservice.controller;
-
-import com.grispi.bootcamp.restservice.model.Genre;
 import com.grispi.bootcamp.restservice.model.Movie;
+import com.grispi.bootcamp.restservice.model.Player;
 import com.grispi.bootcamp.restservice.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 
@@ -30,7 +30,7 @@ public class MovieController {
 
     @PostMapping("")
     public ResponseEntity<Movie> createMovie(@RequestBody Movie movie){
-        
+
         movieRepository.save(movie);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(movie);
@@ -57,8 +57,20 @@ public class MovieController {
     public ResponseEntity<Movie> updateGenreofMovie(@PathVariable long id,@RequestBody Movie movie){
          Movie temp = movieRepository.findById(id).orElseThrow(() -> new IllegalStateException());
          temp.setGenres(movie.getGenres());
-         movieRepository.save(temp);
          return ResponseEntity.status(HttpStatus.OK).body(movieRepository.save(temp));
+    }
+
+    @PostMapping("/{id}/players")
+    public ResponseEntity<Movie> addPlayertoMovie(@PathVariable long id, @RequestBody Player player){
+        Movie temp = movieRepository.findById(id).orElseThrow(() -> new IllegalStateException());
+        temp.getPlayers().add(player);
+        return ResponseEntity.status(HttpStatus.OK).body(movieRepository.save(temp));
+    }
+
+    @GetMapping("/{id}/players")
+    ResponseEntity<Set<Player>> getPlayersOfMovie(@PathVariable long id){
+        Movie temp = movieRepository.findById(id).orElseThrow(() -> new IllegalStateException());
+        return ResponseEntity.status(HttpStatus.OK).body(temp.getPlayers());
     }
 
 }

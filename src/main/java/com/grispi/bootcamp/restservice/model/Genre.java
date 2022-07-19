@@ -1,13 +1,11 @@
 package com.grispi.bootcamp.restservice.model;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Genre {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -27,12 +25,6 @@ public class Genre {
     public String getName() {
         return name;
     }
-  @ManyToMany(mappedBy = "genres")
-    private Set<Movie> movies = new HashSet<>();
 
 
-    public Set<Movie> getMovies(){
-
-        return movies;
-    }
 }
