@@ -32,23 +32,5 @@ public class GenreController {
         return ResponseEntity.status(HttpStatus.CREATED).body(genre);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<Genre>> getGenreById(@PathVariable Long id) {
-        Optional<Genre> genre = genreRepository.findById(id);
-        return ResponseEntity.status(HttpStatus.FOUND).body(genre);
-    }
-
-    public ResponseEntity<Genre> deleteById(@PathVariable Long id) {
-        try{
-            genreRepository.deleteById(id);
-            return ResponseEntity.status(HttpStatus.OK).body(null);
-        }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-    }
-
-
-
-
 
 }

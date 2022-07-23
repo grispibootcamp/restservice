@@ -1,6 +1,8 @@
 package com.grispi.bootcamp.restservice.controller;
 
+import com.grispi.bootcamp.restservice.model.Genre;
 import com.grispi.bootcamp.restservice.model.Movie;
+import com.grispi.bootcamp.restservice.model.Player;
 import com.grispi.bootcamp.restservice.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 
 @RestController
@@ -35,35 +37,58 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.CREATED).body(movie);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Optional<Movie>> getMovieById(@PathVariable Long id) {
-
-        Optional<Movie> movie = movieRepository.findById(id);
-        return ResponseEntity.status(HttpStatus.FOUND).body(movie);
-
+    @GetMapping("/{id}")
+    Movie getOneMovie(@PathVariable Long id){
+        return movieRepository.findById(id).
+                orElseThrow(() -> new IllegalStateException("movie with " + id + " doesn't exist"));
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Movie> deleteMovieById (@PathVariable Long id) {
-        try {
-            movieRepository.deleteById(id);
-            return ResponseEntity.status(HttpStatus.OK).body(null);
-        }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    @DeleteMapping("/{id}")
+    void deleteMovie(@PathVariable long id){
+        boolean movieExists = movieRepository.existsById(id);
+        if(!movieExists){
+            throw new IllegalStateException(
+                    "Movie with " + id + " doesn't exists"
+            );
         }
+        movieRepository.deleteById(id);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Movie> updateGenreOfMovie(@PathVariable Long id, @RequestBody Movie movie) {
-        try {
-            movieRepository.save(movie);
-            return ResponseEntity.status(HttpStatus.OK).body(movie);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(movie);
-        }
+    @PutMapping("/{id}")
+    public ResponseEntity<Movie> updateGenreOfMovie(@PathVariable long id,@RequestBody Movie movie){
+        Movie temp = movieRepository.findById(id).orElseThrow(() -> new IllegalStateException());
+        temp.setGenres(movie.getGenres());
+        return ResponseEntity.status(HttpStatus.OK).body(movieRepository.save(temp));
     }
 
+    @PostMapping("/{id}/players")
+    public ResponseEntity<Movie> addPlayerToMovie(@PathVariable long id, @RequestBody Player player){
+        Movie temp = movieRepository.findById(id).orElseThrow(() -> new IllegalStateException());
+        temp.getPlayers().add(player);
+        return ResponseEntity.status(HttpStatus.OK).body(movieRepository.save(temp));
+    }
 
+    @GetMapping("/{id}/players")
+    ResponseEntity<Set<Player>> getPlayersOfMovie(@PathVariable long id){
+        Movie temp = movieRepository.findById(id).orElseThrow(() -> new IllegalStateException());
+        return ResponseEntity.status(HttpStatus.OK).body(temp.getPlayers());
+    }
 
+    @PostMapping("/{id}/genres")
+    public ResponseEntity<Movie> addGenreToMovie(@PathVariable long id, @RequestBody Genre genre){
+        Movie temp = movieRepository.findById(id).orElseThrow(() -> new IllegalStateException());
+        temp.getGenres().add(genre);
+        return ResponseEntity.status(HttpStatus.OK).body(movieRepository.save(temp));
+    }
+
+    @GetMapping("/{id}/genres")
+    ResponseEntity<Set<Genre>> getGenresOfMovie(@PathVariable long id){
+        Movie temp = movieRepository.findById(id).orElseThrow(() -> new IllegalStateException());
+        return ResponseEntity.status(HttpStatus.OK).body(temp.getGenres());
+    }
 
 }
+
+
+
+

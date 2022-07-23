@@ -8,21 +8,18 @@ import java.util.List;
 public class Player {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "player_id")
     private Long id;
     @Column(name = "player_name")
     private String name;
-    @ManyToMany(mappedBy = "players")
-    private List<Movie> movies;
 
     protected Player() {
 
     }
 
-    public Player(String name, List<Movie> movies) {
+    public Player(String name) {
         this.name = name;
-        this.movies = movies;
     }
 
     public Long getId() {
@@ -33,7 +30,4 @@ public class Player {
         return name;
     }
 
-    public List<Movie> getMovies() {
-        return movies;
-    }
 }

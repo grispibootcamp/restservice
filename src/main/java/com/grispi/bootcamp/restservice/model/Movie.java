@@ -3,39 +3,39 @@ package com.grispi.bootcamp.restservice.model;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "movies")
 public class Movie {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "movie_id")
     private Long id;
     @Column(name = "movie_name")
     private String name;
     @Column(name = "movie_imdbKey")
     private String imdbKey;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "movie_genre",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private List<Genre> genres;
-    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Genre> genres = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "movie_player",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "player_id"))
-    private List<Player> players;
+    private Set<Player> players = new HashSet<>();
 
 
     protected Movie() {
     }
 
-    public Movie(String name, String imdbKey, List<Genre> genres,List<Player> players) {
+    public Movie(String name, String imdbKey) {
         this.name = name;
         this.imdbKey = imdbKey;
-        this.genres = genres;
-        this.players = players;
     }
 
     public Long getId() { return id; }
@@ -48,11 +48,19 @@ public class Movie {
         return imdbKey;
     }
 
-    public List<Genre> getGenres() {
+    public Set<Genre> getGenres() {
         return genres;
     }
 
-    public List<Player> getPlayers() {
+    public Set<Player> getPlayers() {
         return players;
+    }
+
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public void setPlayers(Set<Player> players) {
+        this.players = players;
     }
 }

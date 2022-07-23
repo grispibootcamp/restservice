@@ -17,21 +17,19 @@ import java.util.List;
 public class Genre {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "genre_id")
     private Long id;
     @Column(name = "genre_name")
     private String name;
-    @ManyToMany(mappedBy = "genres")
-    private List<Movie> movies;
+
 
     protected Genre() {
 
     }
 
-    public Genre(String name, List<Movie> movies) {
+    public Genre(String name) {
         this.name = name;
-        this.movies = movies;
     }
 
 
@@ -43,9 +41,6 @@ public class Genre {
         return name;
     }
 
-    public List<Movie> getMovies() {
-        return movies;
-    }
 
 
 }
