@@ -87,6 +87,8 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.OK).body(temp.getGenres());
     }
 
+
+
 }
 
 
