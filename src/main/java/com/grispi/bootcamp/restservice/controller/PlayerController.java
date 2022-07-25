@@ -13,9 +13,10 @@ import java.util.List;
 @RequestMapping("/players/")
 public class PlayerController {
 
-    @Autowired
+
     private PlayerRepository playerRepository;
 
+    @Autowired
     public PlayerController(PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
     }
