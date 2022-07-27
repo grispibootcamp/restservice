@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -41,14 +42,18 @@ public class MovieController {
     @GetMapping("simple")
     public List<SimpleMovie> getMovies(){
 
+        //return movieService.findAllSimpleMovies();
+
         List<Movie> movies = (List<Movie>) movieRepository.findAll();
 
-        List<SimpleMovie> simpleMovies = new ArrayList();
+//        List<SimpleMovie> simpleMovies = new ArrayList();
+//
+//        for (Movie m: movies) {
+//            SimpleMovie sm = new SimpleMovie(m);
+//            simpleMovies.add(sm);
+//        }
 
-        for (Movie m: movies) {
-            SimpleMovie sm = new SimpleMovie(m);
-            simpleMovies.add(sm);
-        }
+        List<SimpleMovie> simpleMovies = movies.stream().map(m -> new SimpleMovie(m)).collect(Collectors.toList());
 
         return simpleMovies;
     }
