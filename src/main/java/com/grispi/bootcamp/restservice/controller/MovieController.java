@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/movies")
-@Transactional
 public class MovieController {
 
     @Autowired
