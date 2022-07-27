@@ -2,10 +2,14 @@ package com.grispi.bootcamp.restservice.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Movie {
@@ -14,16 +18,18 @@ public class Movie {
     private Long id;
     private String name;
     private String imdbKey;
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Genre> genreList = new ArrayList<>();
+
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Player> playerList = new ArrayList<>();
+    private Set<Genre> genreList = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Player> playerList = new HashSet<>();
 
     protected Movie() {
     }
 
-    public Movie(String name, String imdbKey, List<Genre> genreList, List<Player> playerList) {
+    public Movie(String name, String imdbKey, Set<Genre> genreList, Set<Player> playerList) {
         this.name = name;
         this.imdbKey = imdbKey;
         this.genreList = genreList;
@@ -40,19 +46,19 @@ public class Movie {
         return imdbKey;
     }
 
-    public List<Genre> getGenreList() {
+    public Set<Genre> getGenreList() {
         return genreList;
     }
 
-    public void setGenreList(List<Genre> genreList) {
+    public void setGenreList(Set<Genre> genreList) {
         this.genreList = genreList;
     }
 
-    public List<Player> getPlayerList() {
+    public Set<Player> getPlayerList() {
         return playerList;
     }
 
-    public void setPlayerList(List<Player> playerList) {
+    public void setPlayerList(Set<Player> playerList) {
         this.playerList = playerList;
     }
 

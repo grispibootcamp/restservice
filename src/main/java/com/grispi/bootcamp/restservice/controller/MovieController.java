@@ -2,6 +2,7 @@ package com.grispi.bootcamp.restservice.controller;
 
 import com.grispi.bootcamp.restservice.model.Movie;
 import com.grispi.bootcamp.restservice.model.Player;
+import com.grispi.bootcamp.restservice.model.SimpleMovie;
 import com.grispi.bootcamp.restservice.repository.MovieRepository;
 import com.grispi.bootcamp.restservice.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @RestController
@@ -30,9 +33,24 @@ public class MovieController {
     }
 
     @GetMapping
-    public List<Movie> getMovies(){
+    public Set<Movie> getMoviesWithRelation(){
 
-        return (List<Movie>) movieRepository.findAll();
+        return movieRepository.findAllWithRelations();
+    }
+
+    @GetMapping("simple")
+    public List<SimpleMovie> getMovies(){
+
+        List<Movie> movies = (List<Movie>) movieRepository.findAll();
+
+        List<SimpleMovie> simpleMovies = new ArrayList();
+
+        for (Movie m: movies) {
+            SimpleMovie sm = new SimpleMovie(m);
+            simpleMovies.add(sm);
+        }
+
+        return simpleMovies;
     }
 
     @PostMapping
@@ -93,7 +111,7 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @GetMapping("/{id}/players")
-    public List<Player> playersOfMovie(@PathVariable Long id){
+    public Set<Player> playersOfMovie(@PathVariable Long id){
         return movieRepository.findById(id).get().getPlayerList();
     }
 

@@ -2,6 +2,7 @@ spring:
   datasource:
     url: jdbc:h2:file:./demo
   jpa:
+    open-in-view: false
     show-sql: true
     properties:
       hibernate:
