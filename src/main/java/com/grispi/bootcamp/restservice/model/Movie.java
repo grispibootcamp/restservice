@@ -19,7 +19,9 @@ public class Movie {
     private Long id;
 
     @NotBlank(message = "Name is mandatory")
+    @Column(nullable = false)
     private String name;
+
     private String imdbKey;
 
 
