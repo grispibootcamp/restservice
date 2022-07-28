@@ -5,6 +5,7 @@ package com.grispi.bootcamp.restservice.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,6 +17,8 @@ public class Movie {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Name is mandatory")
     private String name;
     private String imdbKey;
 
