@@ -38,3 +38,6 @@ out/
 
 ### h2 database ###
 demo.mv.db
+
+.DS_Store
+*.DS_Store
