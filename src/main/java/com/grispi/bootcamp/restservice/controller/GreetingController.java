@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -32,7 +33,10 @@ public class GreetingController {
 
 	@GetMapping("/")
 	public String hello(@RequestParam(value = "xyz") String xyz) {
-		return "Hello World xyz: " + xyz;
+
+		String processesString = xyz.replace(" ", "").toLowerCase(Locale.ROOT);
+
+		return "Hello World: " + processesString;
 	}
 
 	@PostMapping("/")
