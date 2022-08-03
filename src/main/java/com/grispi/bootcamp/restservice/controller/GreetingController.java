@@ -34,13 +34,15 @@ public class GreetingController {
 	@GetMapping("/")
 	public String hello(@RequestParam(value = "xyz") String xyz) {
 
-		String processesString = xyz.replace(" ", "").toLowerCase(Locale.ROOT);
-
-		return "Hello World: " + processesString;
+		return "Hello World: " + removeEmptySpacesAndMakeStringLowercase(xyz);
 	}
 
 	@PostMapping("/")
 	public String post(@RequestBody String xyz) {
 		return "Hello World: " + xyz;
+	}
+
+	private String removeEmptySpacesAndMakeStringLowercase(String initial) {
+		return initial.replace(" ", "").toLowerCase(Locale.ROOT);
 	}
 }
